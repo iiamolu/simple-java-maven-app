@@ -1,14 +1,21 @@
 pipeline {
     agent any
+
     options {
         skipStagesAfterUnstable()
     }
+
+    tools {
+        maven 'Maven 3.9.6' // Or whatever you installed in Jenkins
+    }
+
     stages {
         stage('Build') {
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                sh 'mvn clean compile'
             }
         }
+
         stage('Test') {
             steps {
                 sh 'mvn test'
@@ -19,9 +26,16 @@ pipeline {
                 }
             }
         }
-        stage('Deliver') { 
+
+        stage('Package') {
             steps {
-                sh './jenkins/scripts/deliver.sh' 
+                sh 'mvn package'
+            }
+        }
+
+        stage('Deliver') {
+            steps {
+                sh './jenkins/scripts/deliver.sh'
             }
         }
     }
