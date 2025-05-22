@@ -29,4 +29,11 @@ pipeline {
             }
         }
     }
+
+    // ✅ Add this to publish test results at the end
+    post {
+        always {
+            junit 'target/surefire-reports/TEST-*.xml'
+        }
+    }
 }
