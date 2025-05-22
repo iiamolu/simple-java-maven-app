@@ -18,6 +18,7 @@ pipeline {
             }
             post {
                 always {
+                    // ✅ Collect and publish test reports here only
                     junit 'target/surefire-reports/TEST-*.xml'
                 }
             }
@@ -27,13 +28,6 @@ pipeline {
             steps {
                 sh './jenkins/scripts/deliver.sh'
             }
-        }
-    }
-
-    // ✅ Add this to publish test results at the end
-    post {
-        always {
-            junit 'target/surefire-reports/TEST-*.xml'
         }
     }
 }
